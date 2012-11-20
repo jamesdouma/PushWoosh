@@ -157,35 +157,41 @@ function toggleCompass() {
     }
 }
 
-function initPushwoosh()
-{
-	var pushNotification = window.plugins.pushNotification;
-	
-	pushNotification.registerDevice({ projectid: "GOOGLE_PROJECT_ID", appid : "PUSHWOOSH_APP_ID" },
-									function(status) {
-										var pushToken = status;
-										console.warn('push token: ' + pushToken);
-									},
-									function(status) {
-									    console.warn(JSON.stringify(['failed to register ', status]));
-									});
+      function initPushwoosh()
+      {
+          var pushNotification = window.plugins.pushNotification;
+       
+          pushNotification.registerDevice({ projectid: "************", appid : "*****-*****" },
+              function(status) {
+                  var pushToken = status;
+                  alert('push token: ' + pushToken);
+                  showStatusMsg('push token: ' + pushToken);
+              },
+              function(status) {
+                  showStatusMsg(JSON.stringify(['failed to register ', status]));
+              }
+          );
+       
+          document.addEventListener('push-notification', function(event) {
+              var title = event.notification.title;
+                  var userData = event.notification.userdata;
+       
+                  if(typeof(userData) != "undefined") {
+                  showStatusMsg('user data: ' + JSON.stringify(userData));
+              }
+       
+              navigator.notification.alert(title);
+          });
+      }
 
-	document.addEventListener('push-notification', function(event) {
-	                            var title = event.notification.title;
-	                            var userData = event.notification.userdata;
-	                            
-	                            if(typeof(userData) != "undefined") {
-									console.warn('user data: ' + JSON.stringify(userData));
-								}
-									
-								navigator.notification.alert(title);
-							  });
- }
+function showStatusMsg(msg) {
+   var msgSpan = document.getElementById("statusMsg");
+   msgSpan.innerHTML = msg;
+} 
 
 function init() {
     // the next line makes it impossible to see Contacts on the HTC Evo since it
     // doesn't have a scroll button
     // document.addEventListener("touchmove", preventBehavior, false);
-    document.addEventListener("deviceready", deviceInfo, true);
     document.addEventListener("deviceready", initPushwoosh, true);
 }

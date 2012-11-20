@@ -19,7 +19,7 @@
             </activity>
         </config-file>
 
-        <!-- Cordova 2.0.0 -->
+        <!-- Cordova 2.1.0 -->
         <source-file src="com/phonegap/plugins/pushwoosh/PushWoosh.java" target-dir="src/com/phonegap/plugins/pushwoosh" />
 
         <config-file target="res/xml/plugins.xml" parent="/plugins">
